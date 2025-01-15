@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de YouTube - KellyPop88</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .counter {
+            margin: 20px 0;
+        }
+        .counter h2 {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Estadísticas del Canal KellyPop88</h1>
+    <div class="counter">
+        <h2>Suscriptores: <span id="subscribers">Cargando...</span></h2>
+        <h2>Visualizaciones: <span id="views">Cargando...</span></h2>
+        <h2>Videos: <span id="videos">Cargando...</span></h2>
+    </div>
+
+    <script>
+        // Clave API y ID del canal
+        const API_KEY = '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';
+        const CHANNEL_ID = 'UCTSbayiFcHLcne-iFjNTD2w';
+
+        async function fetchYouTubeStats() {
+            const url = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const stats = data.items[0].statistics;
+
+                // Actualizar los datos en la página
+                document.getElementById('subscribers').textContent = stats.subscriberCount;
+                document.getElementById('views').textContent = stats.viewCount;
+                document.getElementById('videos').textContent = stats.videoCount;
+            } catch (error) {
+                console.error('Error al obtener estadísticas de YouTube:', error);
+            }
+        }
+
+        // Llamar a la función al cargar la página
+        fetchYouTubeStats();
+    </script>
+</body>
+</html>
